@@ -9,8 +9,8 @@ import { useRouter } from "next/navigation";
 
 type AuthUser = {
   id: string;
-  email?: string | undefined;
-  name?: string;
+  email: string | null;
+  name: string | null;
   image?: string | null;
   [key: string]: any;
 };
@@ -71,12 +71,7 @@ export default function UserLayout({
           collapsed ? "md:ml-17.5" : "md:ml-64",
         )}
       >
-        <Header
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          user={user}
-          collapsed={collapsed}
-        />
+        <Header setIsOpen={setIsOpen} user={user} />
 
         <main className="container mx-auto p-4 lg:p-6">{children}</main>
       </div>

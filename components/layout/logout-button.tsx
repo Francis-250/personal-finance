@@ -1,10 +1,15 @@
 "use client";
 
-import { logout } from "@/app/actions/auth.action";
+import { logout } from "@/app/_action/auth.action";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import React from "react";
 
-export function LogoutButton({ children, ...props }) {
+interface LogoutButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  children?: React.ReactNode;
+}
+
+export function LogoutButton({ children, ...props }: LogoutButtonProps) {
   const router = useRouter();
 
   const handleLogout = async () => {

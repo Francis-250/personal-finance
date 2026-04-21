@@ -31,12 +31,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 
 interface UserProps {
-  name: string;
-  email: string;
+  name?: string | null;
+  email?: string | null;
   image?: string | null;
-  role: string;
-  emailVerified: boolean;
-  createdAt?: string;
+  role?: string | null;
+  emailVerified?: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  [key: string]: any;
 }
 
 export default function SettingsPage() {
@@ -245,7 +247,7 @@ export default function SettingsPage() {
                         <div className="flex gap-4 items-center">
                           <Input
                             id="email"
-                            value={user.email}
+                            value={user.email || ""}
                             readOnly
                             disabled
                             className="max-w-md h-11 bg-muted/50"
