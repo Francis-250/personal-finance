@@ -5,7 +5,14 @@ import Sidebar from "@/components/layout/sidebar";
 import { authClient } from "@/lib/auth-client";
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
+
+type AuthUser = {
+  id: string;
+  email?: string | undefined;
+  [key: string]: any;
+};
 
 export default function UserLayout({
   children,
@@ -14,7 +21,7 @@ export default function UserLayout({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const router = useRouter();
@@ -23,7 +30,7 @@ export default function UserLayout({
     async function getUser() {
       try {
         const { data } = await authClient.getSession();
-        setUser(data?.user);
+        setUser(data?.user ?? null);
       } catch (error) {
         console.error("Failed to fetch user:", error);
       } finally {
@@ -33,17 +40,19 @@ export default function UserLayout({
     getUser();
   }, []);
 
-  if (isLoading) {
+  useEffect(() => {
+    if (isLoading) return;
+    if (!user) {
+      router.push("/auth/login");
+    }
+  }, [user, isLoading, router]);
+
+  if (isLoading || !user) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">Loading...</div>
       </div>
     );
-  }
-
-  if (!user) {
-    router.push("/auth/login");
-    return null;
   }
 
   return (
@@ -64,7 +73,7 @@ export default function UserLayout({
         <Header
           isOpen={isOpen}
           setIsOpen={setIsOpen}
-          user={user}
+          user={user as User}
           collapsed={collapsed}
         />
 

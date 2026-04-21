@@ -18,9 +18,9 @@ import { logout } from "@/app/_action/auth.action";
 interface HeaderProps {
   setIsOpen: (open: boolean) => void;
   user: {
-    name: string;
-    email: string;
-    image?: string;
+    name: string | null;
+    email: string | null;
+    image?: string | null;
   } | null;
 }
 
