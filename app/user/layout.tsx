@@ -5,12 +5,13 @@ import Sidebar from "@/components/layout/sidebar";
 import { authClient } from "@/lib/auth-client";
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 
 type AuthUser = {
   id: string;
   email?: string | undefined;
+  name?: string;
+  image?: string | null;
   [key: string]: any;
 };
 
@@ -73,7 +74,7 @@ export default function UserLayout({
         <Header
           isOpen={isOpen}
           setIsOpen={setIsOpen}
-          user={user as User}
+          user={user}
           collapsed={collapsed}
         />
 
